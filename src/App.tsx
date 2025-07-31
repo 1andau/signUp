@@ -1,16 +1,18 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import SignupForm from './components/SignupForm';
+import ConfirmEmail from './components/ConfirmEmail'; 
+import LoginForm from './components/LoginForm';
 
-function App() {
+const App = () => {
   return (
-    <Router>
+<BrowserRouter>
       <Routes>
-        <Route path="/signup" element={<SignupForm />} />
-        <Route path="/login" element={<SignupForm />} /> {/* сюда компонентик логин попозже */}
-        <Route path="/" element={<div><a href="/signup">Go to Sign Up</a></div>} />
+        <Route path="/" element={<SignupForm />} />
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/confirm/:token" element={<ConfirmEmail />} />
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
