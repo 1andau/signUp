@@ -3,6 +3,7 @@
   height: 106px;
   position: relative;
   flex-shrink: 0;
+   background-color: var(--navbar-color); 
 }
 
 .headerPlaceholder {

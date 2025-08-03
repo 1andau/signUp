@@ -81,29 +81,17 @@ const SignupForm = () => {
         <div className={styles.contentGrid}>
           <div className={styles.leftColumn}>
             <section className={styles.formSection}>
-              {/* <h1 className={styles.pageTitle}>
-                Sign UP
-                <span className={styles.titleSubtext}>
-                  and let your creativity run wild
-                </span>
-              </h1> */}
+        
 
 <h1 className={styles.pageTitle}>Sign UP</h1>
   <div className={styles.titleSubtext}>and let your creativity run wild</div>
-
-
-
-
-
 
 
               <div className={styles.formContainer}>
             <form className={styles.inputsContainer} onSubmit={handleSubmit(onSubmit)} >
 
                   <div className={styles.inputField}>
-                    {/* <label className={styles.placeholder} htmlFor="username">
-                      user name*
-                    </label> */}
+                  
                     <input
                     {...register('username')}
                       type="text"
@@ -165,9 +153,10 @@ const SignupForm = () => {
                 </p>
 
             {errors.repeatPassword && <p className={styles.error}>{errors.repeatPassword.message}</p>}
-                </form>
 
-              
+
+
+
 
                 <div className={styles.agreementSection}>
                   <div className={styles.checkboxRow}>
@@ -205,7 +194,7 @@ const SignupForm = () => {
 
                     
                   </div>
-                              {errors.terms && <p className={styles.error}>{errors.terms.message}</p>}
+            {errors.terms && <p className={styles.errorCheckbox}>{errors.terms.message}</p>}
 
 
 <Button
@@ -220,6 +209,14 @@ const SignupForm = () => {
           
 
                 </div>
+
+
+
+                </form>
+
+              
+
+
               </div>
 
               <p className={styles.signInLink}>
@@ -233,7 +230,7 @@ const SignupForm = () => {
 
           <div className={styles.rightColumn}>
             <img
-              src="https://api.builder.io/api/v1/image/assets/TEMP/9adef6669ce69887fbd535bd5c6bb434c8b935f8?placeholderIfAbsent=true&apiKey=74db10a95f1e4e92821d917887146420"
+            src='/green.png'
               alt="Decorative illustration"
               className={styles.decorativeImage}
             />

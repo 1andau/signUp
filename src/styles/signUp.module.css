@@ -1,28 +1,30 @@
 .signUpPage {
-  background-color: var(--color-black-black-two, #1f1f1f);
+   background-color: var(--color-black-black-two, #1f1f1f); 
   flex-direction: column;
   align-items: stretch;
-  padding-bottom: 93px;
   display: flex;
-  overflow: hidden;
+  overflow: hidden; 
+  /* padding: 20px 0 93px; */
 }
 
 .mainContent {
   align-self: center;
   width: 100%;
-  max-width: 1070px;
-  margin-left: 29px;
+max-width: 1080px;
+  margin: 0 auto; /* Центрируем контент */
 }
 
 @media (width <= 991px) {
   .mainContent {
     max-width: 100%;
+    margin: 0;
   }
 }
 
 .contentGrid {
   gap: 20px;
   display: flex;
+  
 }
 
 @media (width <= 991px) {
@@ -34,11 +36,11 @@
 }
 
 .leftColumn {
-  flex-direction: column;
+  /* flex-direction: column;
   align-items: stretch;
   width: 50%;
   margin-left: 0;
-  line-height: normal;
+  line-height: normal; */
   display: flex;
 }
 
@@ -52,7 +54,8 @@
   z-index: 10;
   flex-direction: column;
   align-items: start;
-  margin: 30px -96px 0 0;
+  margin: 38px -92px 129px 50px;
+  
   font-family: Circe, -apple-system, Roboto, Helvetica, sans-serif;
   font-weight: 400;
   display: flex;
@@ -61,6 +64,7 @@
 @media (width <= 991px) {
   .formSection {
     max-width: 100%;
+    margin: 30px 0 0 0;
   }
 }
 
@@ -85,11 +89,13 @@ color: #e0e0e0;
   line-height: 40px;
   color: #e0e0e0;
   display: block;
-  margin-top: 10px;
+  /* margin-top: 10px; */
+  text-transform: uppercase;
+  margin-bottom: 10px;
 }
 
 .formContainer {
-  color: #888;
+  /* color: #888;
   background-color: #444;
   border-radius: 10px;
   flex-direction: column;
@@ -98,8 +104,20 @@ color: #e0e0e0;
   padding: 44px 57px 44px;
   font-size: 14px;
   display: flex;
+  box-shadow: 0 4px 10px #00000040; */
+  color: #888;
+  background-color: #444;
+  border-radius: 10px;
+  flex-direction: column;
+  align-self: stretch;
+  align-items: stretch;
+  padding: 44px 57px; /* Как указано в макете */
+  font-size: 14px;
+  display: flex;
   box-shadow: 0 4px 10px #00000040;
-  
+  max-width: 560px; /* Макетная ширина */
+  width: 100%; /* Гибкость для адаптивности */
+  box-sizing: border-box;
 }
 
 @media (width <= 991px) {
@@ -121,6 +139,8 @@ font-size: 10px;
 z-index: 10;
   color: var(--text-placeholder, #a8a8a9);
   font-size: 18px;
+  width: 440px;
+
   /* line-height: 1; */
   /* width: 440px; */
   /* margin-top: 20px; */
@@ -256,20 +276,56 @@ border: 1px solid var(--neutral-light, #a8a8a9);
   display: flex;
 }
 
-.checkedCheckbox {
+/* .checkedCheckbox {
   aspect-ratio: 1;
   object-fit: contain;
   object-position: center;
   border-radius: 5px;
   flex-shrink: 0;
   width: 30px;
-}
+} */
 
 .subscriptionText {
   flex-basis: auto;
   align-self: start;
+  padding-bottom: 20px;
 }
 
+
+
+.inputField,
+.inputFieldSpaced,
+.inputFieldNoWrap {
+  border: 1px solid var(--neutral-light, #a8a8a9);
+  background-color: #444;
+  border-radius: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  width: 100%; /* 100% от 440px родителя */
+  padding: 16px 15px; /* Как в текущем CSS */
+  display: flex;
+  overflow: hidden;
+  box-sizing: border-box; /* Учитываем padding и border в размерах */
+  height: 50px; /* Фиксированная высота из макета */
+}
+
+input {
+  width: 100%;
+  height: 100%; /* Заполняет весь контейнер */
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-size: 18px; /* Размер текста из .inputsContainer */
+  box-sizing: border-box; /* Учитываем размеры */
+}
+
+/* Удаляем лишние отступы для .inputFieldSpaced и .inputFieldNoWrap, так как высота уже задана */
+.inputFieldSpaced,
+.inputFieldNoWrap {
+  margin-top: 30px;
+}
 
 
 .signInLink {
@@ -296,11 +352,8 @@ border: 1px solid var(--neutral-light, #a8a8a9);
 }
 
 .decorativeImage {
-  aspect-ratio: 0.74;
-  object-fit: contain;
   object-position: center;
   border-radius: 20px;
-  flex-grow: 1;
   width: 100%;
 }
 
@@ -438,9 +491,46 @@ border: 1px solid var(--neutral-light, #a8a8a9);
 
 
 
+.checkboxRow {
+  align-items: stretch;
+  gap: 21px;
+  line-height: 1;
+  display: flex;
+}
+
+.checkbox {
+  appearance: none;
+  border: 1px solid #a8a8a9;
+  border-radius: 5px;
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Вариант с PNG-изображением для галочки */
+.checkbox:checked {
+  background-image: url('/check.svg'); /* Путь к вашему PNG-изображению */
+  background-size: 20px 20px; /* Масштабируем, чтобы галочка занимала большую часть (80% от 30x30px) */
+  background-position: center;
+  background-repeat: no-repeat;
+  border-color: #a8a8a9; /* Сохраняем бордер */
+}
+
 
   .error {
     color: #ff4444;
     font-size: 12px;
-    margin-top: 1px;
+    margin-top: 3px;
+  }
+
+  .errorCheckbox{
+     color: #ff4444;
+    font-size: 12px;
+    padding: 0 0 15px 0;
   }
