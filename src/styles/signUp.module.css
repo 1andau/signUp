@@ -1,0 +1,410 @@
+.signUpPage {
+  background-color: var(--color-black-black-two, #1f1f1f);
+  flex-direction: column;
+  align-items: stretch;
+  padding-bottom: 93px;
+  display: flex;
+  overflow: hidden;
+}
+
+.mainContent {
+  align-self: center;
+  width: 100%;
+  max-width: 1070px;
+  padding: 0 120px; /* Added 120px padding on left and right */
+  box-sizing: border-box; /* Ensure padding doesn't increase width */
+}
+
+@media (width <= 991px) {
+  .mainContent {
+    max-width: 100%;
+    padding: 0 20px; /* Reduced padding for smaller screens */
+  }
+}
+
+.contentGrid {
+  gap: 20px;
+  display: flex;
+}
+
+@media (width <= 991px) {
+  .contentGrid {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+}
+
+.leftColumn {
+  flex-direction: column;
+  align-items: stretch;
+  width: 50%;
+  margin-left: 0;
+  line-height: normal;
+  display: flex;
+}
+
+@media (width <= 991px) {
+  .leftColumn {
+    width: 100%;
+  }
+}
+
+.formSection {
+  z-index: 10;
+  flex-direction: column;
+  align-items: start;
+  margin: 30px -96px 0 0;
+  font-family: Circe, -apple-system, Roboto, Helvetica, sans-serif;
+  font-weight: 400;
+  display: flex;
+}
+
+@media (width <= 991px) {
+  .formSection {
+    max-width: 100%;
+  }
+}
+
+.pageTitle {
+  color: #e0e0e0;
+  text-transform: uppercase;
+  font-size: 46px;
+  line-height: 60px;
+}
+
+@media (width <= 991px) {
+  .pageTitle {
+    font-size: 40px;
+    line-height: 59px;
+  }
+}
+
+.titleSubtext {
+  font-size: 20px;
+  line-height: 40px;
+}
+
+.formContainer {
+  color: #888;
+  background-color: #444;
+  border-radius: 10px;
+  flex-direction: column;
+  align-self: stretch;
+  align-items: stretch;
+  padding: 99px 59px 41px;
+  font-size: 14px;
+  display: flex;
+  box-shadow: 0 4px 10px #00000040;
+}
+
+@media (width <= 991px) {
+  .formContainer {
+    max-width: 100%;
+    padding: 0 20px;
+  }
+}
+
+.usernameWarning {
+  letter-spacing: -0.56px;
+  align-self: start;
+  line-height: 1.2;
+}
+
+.inputsContainer {
+  z-index: 10;
+  color: var(--text-placeholder, #a8a8a9);
+  margin-top: -71px;
+  font-size: 18px;
+  line-height: 1;
+}
+
+@media (width <= 991px) {
+  .inputsContainer {
+    max-width: 100%;
+  }
+}
+
+.inputField {
+  border: 1px solid var(--neutral-light, #a8a8a9);
+  background-color: #444;
+  border-radius: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  width: 100%;
+  padding: 16px 15px;
+  display: flex;
+  overflow: hidden;
+}
+
+@media (width <= 991px) {
+  .inputField {
+    max-width: 100%;
+    padding-right: 20px;
+  }
+}
+
+.inputFieldSpaced {
+  border: 1px solid var(--neutral-light, #a8a8a9);
+  background-color: #444;
+  border-radius: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  width: 100%;
+  margin-top: 30px;
+  padding: 16px 15px;
+  display: flex;
+  overflow: hidden;
+}
+
+@media (width <= 991px) {
+  .inputFieldSpaced {
+    max-width: 100%;
+    padding-right: 20px;
+  }
+}
+
+.inputFieldNoWrap {
+  border: 1px solid var(--neutral-light, #a8a8a9);
+  white-space: nowrap;
+  background-color: #444;
+  border-radius: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  width: 100%;
+  margin-top: 30px;
+  padding: 16px 15px;
+  display: flex;
+  overflow: hidden;
+}
+
+@media (width <= 991px) {
+  .inputFieldNoWrap {
+    max-width: 100%;
+    white-space: initial;
+    padding-right: 20px;
+  }
+}
+
+.placeholder {
+  color: var(--text-placeholder, #a8a8a9);
+}
+
+.passwordRequirement {
+  letter-spacing: -0.56px;
+  align-self: start;
+  margin-top: -78px;
+  line-height: 1.2;
+}
+
+.agreementSection {
+  color: #fff;
+  letter-spacing: -0.72px;
+  flex-direction: column;
+  align-items: start;
+  width: 100%;
+  margin-top: 92px;
+  font-size: 18px;
+  display: flex;
+}
+
+@media (width <= 991px) {
+  .agreementSection {
+    max-width: 100%;
+    margin-top: 40px;
+  }
+}
+
+.checkboxRow {
+  align-items: stretch;
+  gap: 21px;
+  line-height: 1;
+  display: flex;
+}
+
+.checkbox {
+  border: 1px solid #a8a8a9;
+  border-radius: 5px;
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+}
+
+.termsText {
+  flex: auto;
+  margin: auto 0;
+}
+
+.linkText {
+  text-decoration: underline;
+  color: rgba(109, 232, 202, 1);
+}
+
+.subscriptionRow {
+  align-items: stretch;
+  gap: 21px;
+  margin-top: 14px;
+  display: flex;
+}
+
+.checkedCheckbox {
+  aspect-ratio: 1;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 5px;
+  flex-shrink: 0;
+  width: 30px;
+}
+
+.subscriptionText {
+  flex-basis: auto;
+  align-self: start;
+}
+
+.signUpButton {
+  align-self: stretch;
+  width: 100%;
+  max-width: 439px;
+  height: 55px;
+  position: relative;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  overflow: hidden;
+  margin-top: 19px;
+}
+
+@media (width <= 991px) {
+  .signUpButton {
+    max-width: 100%;
+    height: 50px;
+  }
+}
+
+@media (width <= 640px) {
+  .signUpButton {
+    height: 45px;
+  }
+}
+
+.signUpButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.signUpButton:hover:not(:disabled) .buttonBackground {
+  background: radial-gradient(91.83% 91.83% at 4.84% 9.68%, #82b3a7 0%, #1a5d63cc 65.28%, #0a3336cc 88.77%);
+}
+
+.signUpButton:active:not(:disabled) .buttonBackground {
+  transform: translateY(1px);
+  box-shadow: 1px 1px 1px #0000004d;
+}
+
+.buttonBackground {
+  background: radial-gradient(91.83% 91.83% at 4.84% 9.68%, #76a79b 0%, #0f5157cc 65.28%, #052d30cc 88.77%);
+  border: 1px solid #313131;
+  border-radius: 10px;
+  flex-shrink: 0;
+  width: 439px;
+  height: 55px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-shadow: 2px 2px 2px #0000004d;
+  transition: all 0.2s ease;
+}
+
+@media (width <= 991px) {
+  .buttonBackground {
+    width: 100%;
+    height: 50px;
+  }
+}
+
+@media (width <= 640px) {
+  .buttonBackground {
+    border-radius: 8px;
+    height: 45px;
+  }
+}
+
+.buttonOverlay {
+  flex-shrink: 0;
+  width: 440px;
+  height: 55px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  object-fit: cover;
+}
+
+@media (width <= 991px) {
+  .buttonOverlay {
+    width: 100%;
+    height: 50px;
+  }
+}
+
+@media (width <= 640px) {
+  .buttonOverlay {
+    height: 45px;
+  }
+}
+
+.buttonText {
+  position: relative;
+  z-index: 2;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  pointer-events: none;
+}
+
+@media (width <= 640px) {
+  .buttonText {
+    font-size: 14px;
+  }
+}
+
+.rightColumn {
+  flex-direction: column;
+  align-items: stretch;
+  width: 50%;
+  margin-left: 20px;
+  line-height: normal;
+  display: flex;
+}
+
+@media (width <= 991px) {
+  .rightColumn {
+    width: 100%;
+  }
+}
+
+.decorativeImage {
+  aspect-ratio: 0.74;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 20px;
+  flex-grow: 1;
+  width: 100%;
+}
+
+@media (width <= 991px) {
+  .decorativeImage {
+    max-width: 100%;
+  }
+}

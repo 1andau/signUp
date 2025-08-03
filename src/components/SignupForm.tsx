@@ -5,7 +5,9 @@ import { useRegisterUserMutation } from '../store/api';
 import { toast } from 'react-toastify';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { getErrorMessage } from '../utils/errorHandler';
-import '../styles/signupForm.scss'
+import '../styles/signupForm.scss';
+import Button from './button/Button';
+
 const signupSchema = z
   .object({
     username: z.string().min(3, 'Username must be at least 3 characters'),
@@ -70,46 +72,56 @@ const SignupForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="signup-form">
-      <h2>SIGN UP</h2>
-      <p>AND LET YOUR CREATIVITY RUN WILD</p>
-      <div>
-        <label>user name*</label>
-        <input {...register('username')} placeholder="user name" />
-        {errors.username && <p className="error">{errors.username.message}</p>}
-        <small>it won't be possible to change the username later</small>
+    <div className="signupContainer">
+
+      {/* <div className="signup-title">
+        <h1 >SIGN UP</h1>
+        <h2>AND LET YOUR CREATIVITY RUN WILD</h2>
+      </div> */}
+      <div className="content">
+        <div className="image-container">
+          <img src="/green.jpg" alt="Background" />
+        </div>
+        <form onSubmit={handleSubmit(onSubmit)} className="signup-form">
+          <small>Already have an account? <a href="/login">Sign in</a></small>
+          <div className="input-group">
+            <input {...register('username')} type='username' placeholder="user name" />
+            <small>it won't be possible to change the username later</small>
+            {errors.username && <p className="error">{errors.username.message}</p>}
+          </div>
+          <div className="input-group">
+            <input {...register('email')} type="email" placeholder="your email" />
+            {errors.email && <p className="error">{errors.email.message}</p>}
+          </div>
+          <div className="input-group">
+            <input {...register('password')} type="password" placeholder="password" />
+            <small>Password must be 8+ characters</small>
+            {errors.password && <p className="error">{errors.password.message}</p>}
+          </div>
+          <div className="input-group">
+            <input {...register('repeatPassword')} type="password" placeholder="repeat password" />
+            {errors.repeatPassword && <p className="error">{errors.repeatPassword.message}</p>}
+          </div>
+          <div className="checkbox-group">
+            <input type="checkbox" {...register('terms')} />
+            <label>I agree to EPX Terms of use and Privacy statement.</label>
+            {errors.terms && <p className="error">{errors.terms.message}</p>}
+          </div>
+          <div className="checkbox-group">
+            <input type="checkbox" {...register('subscribe')} defaultChecked />
+            <label>Subscribe to EPX news.</label>
+          </div>
+
+<Button
+            text={isLoading ? 'Signing up...' : 'Sign up'}
+            onClick={handleSubmit(onSubmit)} 
+            disabled={isLoading}
+          />
+
+          {isError && <p className="error">Registration failed: {getErrorMessage(error)}</p>}
+        </form>
       </div>
-      <div>
-        <label>your email</label>
-        <input {...register('email')} type="email" placeholder="your email" />
-        {errors.email && <p className="error">{errors.email.message}</p>}
-      </div>
-      <div>
-        <label>password</label>
-        <input {...register('password')} type="password" placeholder="password" />
-        {errors.password && <p className="error">{errors.password.message}</p>}
-        <small>Password must be 8+ characters</small>
-      </div>
-      <div>
-        <label>repeat password</label>
-        <input {...register('repeatPassword')} type="password" placeholder="repeat password" />
-        {errors.repeatPassword && <p className="error">{errors.repeatPassword.message}</p>}
-      </div>
-      <div>
-        <input type="checkbox" {...register('terms')} />
-        <label>I agree to EPX Terms of use and Privacy statement.</label>
-        {errors.terms && <p className="error">{errors.terms.message}</p>}
-      </div>
-      <div>
-        <input type="checkbox" {...register('subscribe')} defaultChecked />
-        <label>Subscribe to EPX news.</label>
-      </div>
-      <button type="submit" disabled={isLoading}>
-        {isLoading ? 'Signing up...' : 'Sign up'}
-      </button>
-      {isError && <p className="error">Registration failed: {getErrorMessage(error)}</p>}
-      <p>Already have an account? <a href="/login">Sign in</a></p>
-    </form>
+    </div>
   );
 };
 

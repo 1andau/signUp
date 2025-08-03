@@ -1,0 +1,115 @@
+
+
+
+.signUpButton {
+  align-self: stretch;
+  width: 100%;
+  max-width: 439px;
+  height: 55px;
+  position: relative;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  overflow: hidden;
+  
+}
+
+@media (width <= 991px) {
+  .signUpButton {
+    max-width: 100%;
+    height: 50px;
+  }
+}
+
+@media (width <= 640px) {
+  .signUpButton {
+    height: 45px;
+  }
+}
+
+.signUpButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.signUpButton:hover:not(:disabled) .buttonBackground {
+  background: radial-gradient(91.83% 91.83% at 4.84% 9.68%, #82b3a7 0%, #1a5d63cc 65.28%, #0a3336cc 88.77%);
+}
+
+.signUpButton:active:not(:disabled) .buttonBackground {
+  transform: translateY(1px);
+  box-shadow: 1px 1px 1px #0000004d;
+}
+
+.buttonBackground {
+  background: radial-gradient(91.83% 91.83% at 4.84% 9.68%, #76a79b 0%, #0f5157cc 65.28%, #052d30cc 88.77%);
+  border: 1px solid #313131;
+  border-radius: 10px;
+  flex-shrink: 0;
+  width: 439px;
+  height: 55px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-shadow: 2px 2px 2px #0000004d;
+  transition: all 0.2s ease;
+}
+
+@media (width <= 991px) {
+  .buttonBackground {
+    width: 100%;
+    height: 50px;
+  }
+}
+
+@media (width <= 640px) {
+  .buttonBackground {
+    height: 45px;
+  }
+}
+
+.buttonOverlay {
+  flex-shrink: 0;
+  width: 440px;
+  height: 55px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  object-fit: cover;
+}
+
+@media (width <= 991px) {
+  .buttonOverlay {
+    width: 100%;
+    height: 50px;
+  }
+}
+
+@media (width <= 640px) {
+  .buttonOverlay {
+    height: 45px;
+  }
+}
+
+.buttonText {
+  position: relative;
+  z-index: 2;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  pointer-events: none;
+}
+
+@media (width <= 640px) {
+  .buttonText {
+    font-size: 14px;
+  }
+}
