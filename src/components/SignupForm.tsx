@@ -7,6 +7,7 @@ import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { getErrorMessage } from '../utils/errorHandler';
 import '../styles/signupForm.scss';
 import Button from './button/Button';
+import styles from '../styles/signUp.module.css'
 
 const signupSchema = z
   .object({
@@ -72,45 +73,140 @@ const SignupForm = () => {
   };
 
   return (
-    <div className="signupContainer">
 
-      {/* <div className="signup-title">
-        <h1 >SIGN UP</h1>
-        <h2>AND LET YOUR CREATIVITY RUN WILD</h2>
-      </div> */}
-      <div className="content">
-        <div className="image-container">
-          <img src="/green.jpg" alt="Background" />
-        </div>
-        <form onSubmit={handleSubmit(onSubmit)} className="signup-form">
-          <small>Already have an account? <a href="/login">Sign in</a></small>
-          <div className="input-group">
-            <input {...register('username')} type='username' placeholder="user name" />
-            <small>it won't be possible to change the username later</small>
-            {errors.username && <p className="error">{errors.username.message}</p>}
-          </div>
-          <div className="input-group">
-            <input {...register('email')} type="email" placeholder="your email" />
-            {errors.email && <p className="error">{errors.email.message}</p>}
-          </div>
-          <div className="input-group">
-            <input {...register('password')} type="password" placeholder="password" />
-            <small>Password must be 8+ characters</small>
-            {errors.password && <p className="error">{errors.password.message}</p>}
-          </div>
-          <div className="input-group">
-            <input {...register('repeatPassword')} type="password" placeholder="repeat password" />
-            {errors.repeatPassword && <p className="error">{errors.repeatPassword.message}</p>}
-          </div>
-          <div className="checkbox-group">
-            <input type="checkbox" {...register('terms')} />
-            <label>I agree to EPX Terms of use and Privacy statement.</label>
-            {errors.terms && <p className="error">{errors.terms.message}</p>}
-          </div>
-          <div className="checkbox-group">
-            <input type="checkbox" {...register('subscribe')} defaultChecked />
-            <label>Subscribe to EPX news.</label>
-          </div>
+
+
+    <div className={styles.signUpPage}>
+      <main className={styles.mainContent}>
+        <div className={styles.contentGrid}>
+          <div className={styles.leftColumn}>
+            <section className={styles.formSection}>
+              {/* <h1 className={styles.pageTitle}>
+                Sign UP
+                <span className={styles.titleSubtext}>
+                  and let your creativity run wild
+                </span>
+              </h1> */}
+
+<h1 className={styles.pageTitle}>Sign UP</h1>
+  <div className={styles.titleSubtext}>and let your creativity run wild</div>
+
+
+
+
+
+
+
+              <div className={styles.formContainer}>
+            <form className={styles.inputsContainer} onSubmit={handleSubmit(onSubmit)} >
+
+                  <div className={styles.inputField}>
+                    {/* <label className={styles.placeholder} htmlFor="username">
+                      user name*
+                    </label> */}
+                    <input
+                    {...register('username')}
+                      type="text"
+                      id="username"
+                      name="username"
+                      placeholder="user name*"
+                      required
+                      aria-describedby="username-warning"
+                      style={{ background: 'transparent', border: 'none', outline: 'none', color: '#fff', width: '100%' }}
+                    />
+
+
+                  </div>
+                                   <p id="username-warning" className={styles.usernameWarning}>
+          *it won't be possible to change the username later
+        </p>
+
+            {errors.username && <p className={styles.error}>{errors.username.message}</p>}
+
+                  <div className={styles.inputFieldSpaced}>
+                    <input
+                    {...register('email')}
+                      type="email"
+                      placeholder='your email'
+                      id="email"
+                      name="email"
+                      required
+                      style={{ background: 'transparent', border: 'none', outline: 'none', color: '#fff', width: '100%' }}
+                    />
+                  </div>
+            {errors.email && <p className={styles.error}>{errors.email.message}</p>}
+
+
+                  <div className={styles.inputFieldNoWrap}>
+                    <input
+                    {...register('password')}
+                      type="password"
+                      id="password"
+                      placeholder='password'
+                      name="password"
+                      required
+                      aria-describedby="password-requirement"
+                      style={{ background: 'transparent', border: 'none', outline: 'none', color: '#fff', width: '100%' }}
+                    />
+                  </div>
+            {errors.password && <p className={styles.error}>{errors.password.message}</p>}
+
+                  <div className={styles.inputFieldSpaced}>
+                    <input
+                    {...register('repeatPassword')}
+                      id="repeatPassword"
+                      placeholder='repeat password'
+                      required
+                      style={{ background: 'transparent', border: 'none', outline: 'none', color: '#fff', width: '100%' }}
+                    />
+                  </div>
+                    <p id="password-requirement" className={styles.usernameWarning}>
+                  Password must be 8+ characters
+                </p>
+
+            {errors.repeatPassword && <p className={styles.error}>{errors.repeatPassword.message}</p>}
+                </form>
+
+              
+
+                <div className={styles.agreementSection}>
+                  <div className={styles.checkboxRow}>
+         <input
+  type="checkbox"
+  id="terms"
+  {...register('terms')}
+  className={styles.checkbox}
+/>
+                    <label htmlFor="terms" className={styles.termsText}>
+                      I agree to EPX{" "}
+                      <span className={styles.linkText}>
+                        Terms of use
+                      </span>{" "}
+                      and{" "}
+                      <span className={styles.linkText}>
+                        Privacy statement
+                      </span>
+                      .
+                    </label>
+                  </div>
+
+                  <div className={styles.subscriptionRow}>
+
+               <input
+  type="checkbox"
+  id="subscribe"
+  {...register('subscribe')}
+  className={styles.checkbox}
+/>
+             
+                    <label className={styles.subscriptionText}>
+                      Subscribe to EPX news.
+                    </label>
+
+                    
+                  </div>
+                              {errors.terms && <p className={styles.error}>{errors.terms.message}</p>}
+
 
 <Button
             text={isLoading ? 'Signing up...' : 'Sign up'}
@@ -118,9 +214,32 @@ const SignupForm = () => {
             disabled={isLoading}
           />
 
-          {isError && <p className="error">Registration failed: {getErrorMessage(error)}</p>}
-        </form>
-      </div>
+
+
+ {isError && <p className={styles.error}>Registration failed: {getErrorMessage(error)}</p>}
+          
+
+                </div>
+              </div>
+
+              <p className={styles.signInLink}>
+                Already have an account?{" "}
+                <span className={styles.linkText}>
+                  Sign in
+                </span>
+              </p>
+            </section>
+          </div>
+
+          <div className={styles.rightColumn}>
+            <img
+              src="https://api.builder.io/api/v1/image/assets/TEMP/9adef6669ce69887fbd535bd5c6bb434c8b935f8?placeholderIfAbsent=true&apiKey=74db10a95f1e4e92821d917887146420"
+              alt="Decorative illustration"
+              className={styles.decorativeImage}
+            />
+          </div>
+        </div>
+      </main>
     </div>
   );
 };

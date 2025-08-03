@@ -11,14 +11,12 @@
   align-self: center;
   width: 100%;
   max-width: 1070px;
-  padding: 0 120px; /* Added 120px padding on left and right */
-  box-sizing: border-box; /* Ensure padding doesn't increase width */
+  margin-left: 29px;
 }
 
 @media (width <= 991px) {
   .mainContent {
     max-width: 100%;
-    padding: 0 20px; /* Reduced padding for smaller screens */
   }
 }
 
@@ -67,10 +65,12 @@
 }
 
 .pageTitle {
-  color: #e0e0e0;
+color: #e0e0e0;
   text-transform: uppercase;
   font-size: 46px;
   line-height: 60px;
+  font-weight: 300;
+  margin-bottom: 0;
 }
 
 @media (width <= 991px) {
@@ -83,6 +83,9 @@
 .titleSubtext {
   font-size: 20px;
   line-height: 40px;
+  color: #e0e0e0;
+  display: block;
+  margin-top: 10px;
 }
 
 .formContainer {
@@ -92,10 +95,11 @@
   flex-direction: column;
   align-self: stretch;
   align-items: stretch;
-  padding: 99px 59px 41px;
+  padding: 44px 57px 44px;
   font-size: 14px;
   display: flex;
   box-shadow: 0 4px 10px #00000040;
+  
 }
 
 @media (width <= 991px) {
@@ -106,17 +110,20 @@
 }
 
 .usernameWarning {
+font-size: 10px;
   letter-spacing: -0.56px;
-  align-self: start;
   line-height: 1.2;
+  margin-top: 8px;
+  color: #888;
 }
 
 .inputsContainer {
-  z-index: 10;
+z-index: 10;
   color: var(--text-placeholder, #a8a8a9);
-  margin-top: -71px;
   font-size: 18px;
-  line-height: 1;
+  /* line-height: 1; */
+  /* width: 440px; */
+  /* margin-top: 20px; */
 }
 
 @media (width <= 991px) {
@@ -126,7 +133,7 @@
 }
 
 .inputField {
-  border: 1px solid var(--neutral-light, #a8a8a9);
+border: 1px solid var(--neutral-light, #a8a8a9);
   background-color: #444;
   border-radius: 10px;
   flex-direction: column;
@@ -136,6 +143,10 @@
   padding: 16px 15px;
   display: flex;
   overflow: hidden;
+  gap: 8px;
+
+
+  
 }
 
 @media (width <= 991px) {
@@ -157,6 +168,7 @@
   padding: 16px 15px;
   display: flex;
   overflow: hidden;
+  height: 50px;
 }
 
 @media (width <= 991px) {
@@ -189,15 +201,8 @@
   }
 }
 
-.placeholder {
-  color: var(--text-placeholder, #a8a8a9);
-}
-
 .passwordRequirement {
-  letter-spacing: -0.56px;
-  align-self: start;
-  margin-top: -78px;
-  line-height: 1.2;
+  font-size: 10px;
 }
 
 .agreementSection {
@@ -206,8 +211,8 @@
   flex-direction: column;
   align-items: start;
   width: 100%;
-  margin-top: 92px;
-  font-size: 18px;
+    margin-top: 28px;
+      font-size: 18px;
   display: flex;
 }
 
@@ -265,6 +270,58 @@
   align-self: start;
 }
 
+
+
+.signInLink {
+  color: #fff;
+  text-align: center;
+  margin-top: 13px;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.rightColumn {
+  flex-direction: column;
+  align-items: stretch;
+  width: 50%;
+  margin-left: 20px;
+  line-height: normal;
+  display: flex;
+}
+
+@media (width <= 991px) {
+  .rightColumn {
+    width: 100%;
+  }
+}
+
+.decorativeImage {
+  aspect-ratio: 0.74;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 20px;
+  flex-grow: 1;
+  width: 100%;
+}
+
+@media (width <= 991px) {
+  .decorativeImage {
+    max-width: 100%;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 .signUpButton {
   align-self: stretch;
   width: 100%;
@@ -276,7 +333,7 @@
   cursor: pointer;
   padding: 0;
   overflow: hidden;
-  margin-top: 19px;
+  
 }
 
 @media (width <= 991px) {
@@ -379,32 +436,11 @@
   }
 }
 
-.rightColumn {
-  flex-direction: column;
-  align-items: stretch;
-  width: 50%;
-  margin-left: 20px;
-  line-height: normal;
-  display: flex;
-}
 
-@media (width <= 991px) {
-  .rightColumn {
-    width: 100%;
+
+
+  .error {
+    color: #ff4444;
+    font-size: 12px;
+    margin-top: 1px;
   }
-}
-
-.decorativeImage {
-  aspect-ratio: 0.74;
-  object-fit: contain;
-  object-position: center;
-  border-radius: 20px;
-  flex-grow: 1;
-  width: 100%;
-}
-
-@media (width <= 991px) {
-  .decorativeImage {
-    max-width: 100%;
-  }
-}
