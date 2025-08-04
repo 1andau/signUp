@@ -4,10 +4,10 @@ import { setToken, logout } from './authSlice';
 
 const baseQuery = fetchBaseQuery({
   baseUrl: '/api',
-  credentials: 'include', // обязательно для передачи куки
+  credentials: 'include',
   prepareHeaders: (headers) => {
     const csrfToken = localStorage.getItem('csrfToken');
-    const accessToken = localStorage.getItem('accessToken'); // если сохраняешь access
+    const accessToken = localStorage.getItem('accessToken');
     if (csrfToken) {
       headers.set('X-CSRF-Token', csrfToken);
     }
@@ -18,12 +18,10 @@ const baseQuery = fetchBaseQuery({
   },
 });
 
-// Обёртка для автообновления access токена
 const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> =
   async (args, api, extraOptions) => {
     let result = await baseQuery(args, api, extraOptions);
 
-    // Если access токен истёк — пробуем обновить
     if (result.error && result.error.status === 401) {
       const refreshResult = await baseQuery('/v1/auth/refresh-token', api, extraOptions);
 
@@ -31,11 +29,9 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
         const newAccessToken = (refreshResult.data as any).access;
         localStorage.setItem('accessToken', newAccessToken);
         api.dispatch(setToken(newAccessToken));
-
-        // Повторяем оригинальный запрос с новым токеном
         result = await baseQuery(args, api, extraOptions);
       } else {
-        api.dispatch(logout()); // если refresh тоже не сработал
+        api.dispatch(logout());
       }
     }
 
@@ -43,7 +39,7 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
   };
 
 export const api = createApi({
-  baseQuery: baseQueryWithReauth, // заменили!
+  baseQuery: baseQueryWithReauth,
   endpoints: (builder) => ({
     registerUser: builder.mutation({
       query: (body) => ({
@@ -70,25 +66,21 @@ export const api = createApi({
         method: 'POST',
       }),
     }),
-
-    getCurrentUser: builder.query({
-  query: () => ({
-    url: 'v1/users/me',
-    method: 'GET',
-    headers: {
-      // Можно не писать, если ты автоматизируешь это через prepareHeaders
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
-  }),
-}),
-
-logoutUser: builder.mutation<string, void>({
-  query: () => ({
-    url: 'v1/auth/logout',
-    method: 'GET',
-  }),
-}),
-
+    getCurrentUser: builder.query<any, void>({
+      query: () => ({
+        url: 'v1/users/me',
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        },
+      }),
+    }),
+    logoutUser: builder.mutation<string, void>({
+      query: () => ({
+        url: 'v1/auth/logout',
+        method: 'GET',
+      }),
+    }),
     refreshAccessToken: builder.query({
       query: () => 'v1/auth/refresh-token',
     }),
@@ -101,6 +93,6 @@ export const {
   useGetCsrfTokenQuery,
   useConfirmEmailMutation,
   useRefreshAccessTokenQuery,
-    useGetCurrentUserQuery,
-useLogoutUserMutation
+  useGetCurrentUserQuery,
+  useLogoutUserMutation,
 } = api;

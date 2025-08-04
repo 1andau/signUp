@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { useConfirmEmailMutation, useGetCsrfTokenQuery } from '../store/api';
+import { useConfirmEmailMutation, useGetCsrfTokenQuery } from '../../store/api';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 
@@ -9,11 +9,6 @@ const ConfirmEmail = () => {
 
   const { data: csrfToken } = useGetCsrfTokenQuery({});
   const [confirmEmail, { isLoading, isError, error, isSuccess }] = useConfirmEmailMutation();
-
-
-  console.log('Token:', token);
-console.log('CSRF:', csrfToken);
-
 
   useEffect(() => {
     if (csrfToken && token) {

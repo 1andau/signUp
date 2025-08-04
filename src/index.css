@@ -4,10 +4,12 @@
   --color-black-black-two: #1F1F1F;
   --neutral-light: rgba(168, 168, 169, 1);
   --text-placeholder: #A8A8A9;
-  --text-link: #0EB;
   --neutral-lighter: rgba(220, 223, 227, 1);
   --thin-lines: rgba(122, 122, 122, 1);
   --accent-color: #6DE8CA;
+  --navbar-color: #333333;
+  --form-color:#444444;
+--links-color:#6DE8CA;
 }
 
 * {

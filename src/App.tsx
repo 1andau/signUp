@@ -1,15 +1,14 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import SignupForm from "./components/SignupForm";
-import ConfirmEmail from "./components/ConfirmEmail";
-import LoginForm from "./components/LoginForm";
-import Navbar from "./components/Navbar";
-import Profile from "./components/Profile";
+import SignupForm from "./features/auth/SignupForm";
+import ConfirmEmail from "./features/auth/ConfirmEmail";
+import LoginForm from "./features/auth/LoginForm";
+import Navbar from "./components/navbar/Navbar";
+import Profile from "./components/profile/Profile";
 
 const App = () => {
   return (
     <BrowserRouter>
       <Navbar />
-      {/* <div style={{ paddingTop: "60px" }}></div> */}
       <Routes>
         <Route path="/" element={<SignupForm />} />
         <Route path="/login" element={<LoginForm />} />

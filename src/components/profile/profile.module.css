@@ -1,0 +1,112 @@
+.profilePage {
+  background-color: var(--color-black-black-two);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.mainContent {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.profileSection {
+  background-color: var(--form-color);
+  border-radius: 10px;
+  padding: 40px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  text-align: center;
+  color: #e0e0e0;
+  font-family: 'Circe', -apple-system, Roboto, Helvetica, sans-serif;
+  font-weight: 400;
+}
+
+.pageTitle {
+  font-size: 46px;
+  font-weight: 300;
+  margin-bottom: 20px;
+  color: #e0e0e0;
+  text-transform: uppercase;
+}
+
+.infoContainer {
+  background-color: var(--navbar-color);
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+}
+
+.infoItem {
+  font-size: 18px;
+  color: #fff;
+  margin: 10px 0;
+  border-bottom: 1px solid var(--thin-lines);
+  padding-bottom: 10px;
+}
+
+.infoItem:last-child {
+  border-bottom: none;
+}
+
+.logoutButton {
+  background-color: var(--form-color);
+  color: var(--links-color);
+  border: 1px solid var(--neutral-light);
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.logoutButton:hover {
+  background-color: var(--accent-color);
+  color: var(--color-black-black-two);
+}
+
+.logoutButton:disabled {
+  background-color: var(--navbar-color);
+  color: var(--text-placeholder);
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .profileSection {
+    padding: 20px;
+  }
+
+  .pageTitle {
+    font-size: 36px;
+  }
+
+  .infoItem {
+    font-size: 16px;
+  }
+
+  .logoutButton {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .profileSection {
+    padding: 15px;
+  }
+
+  .pageTitle {
+    font-size: 28px;
+  }
+
+  .infoItem {
+    font-size: 14px;
+  }
+
+  .logoutButton {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
