@@ -1,9 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { PayloadAction } from '@reduxjs/toolkit';
 
+interface User {
+  id: string;
+  email: string;
+  name?: string;
+}
+
 interface AuthState {
   token: string | null;
-  user: any | null;
+  user: User | null;
 }
 
 const initialState: AuthState = {
@@ -18,7 +24,7 @@ const authSlice = createSlice({
     setToken: (state, action: PayloadAction<string>) => {
       state.token = action.payload;
     },
-    setUser: (state, action: PayloadAction<any>) => {
+    setUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload;
     },
     logout: (state) => {
