@@ -1,6 +1,6 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
+import { z } from 'zod';
 import { useLoginUserMutation } from '../../store/api';
 import { toast } from 'react-toastify';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
@@ -119,8 +119,8 @@ const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
 
               <Button
                 text={isLoading ? 'Logging in...' : 'Log in'}
-                onClick={handleSubmit(onSubmit)}
-                disabled={isLoading}
+                type="submit"
+               disabled={isLoading}
               />
 
               {isError && <p className={styles.error}>Login failed: {getErrorMessage(error)}</p>}

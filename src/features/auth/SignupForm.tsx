@@ -1,6 +1,5 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
 import { useRegisterUserMutation } from '../../store/api';
 import { toast } from 'react-toastify';
 import { getErrorMessage } from '../../utils/errorHandler';
@@ -9,6 +8,7 @@ import styles from './signUp.module.css'
 import { useNavigate } from 'react-router-dom';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { SerializedError } from '@reduxjs/toolkit';
+import { z } from 'zod';
 
 
 const signupSchema = z
@@ -156,8 +156,8 @@ const onSubmit: SubmitHandler<SignupFormData> = async (data) => {
 
               <Button
                 text={isLoading ? 'Signing up...' : 'Sign up'}
-                onClick={handleSubmit(onSubmit)}
                 disabled={isLoading}
+               type="submit"
               />
 
               {isError && <p className={styles.error}>Registration failed: {getErrorMessage(error)}</p>}

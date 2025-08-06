@@ -1,20 +1,16 @@
-import * as React from "react";
-import styles from "./button.module.css";
+import styles from './button.module.css';
+import type { ButtonHTMLAttributes } from 'react';
 
-interface ButtonProps {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   text: string;
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  disabled?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({ text, onClick, disabled }) => {
+const Button = ({ text, className, ...rest }: ButtonProps) => {
   return (
     <button
-      className={styles.signUpButton}
+      className={`${styles.signUpButton} ${className ?? ''}`}
       aria-label={text}
-      type="submit" // Изменил на submit для работы с формой
-      onClick={onClick}
-      disabled={disabled}
+      {...rest}
     >
       <div className={styles.buttonBackground} />
       <img
