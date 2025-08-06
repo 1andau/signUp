@@ -54,9 +54,11 @@ const SignupForm = () => {
         name: data.username,
         email: data.email,
         password: data.password,
-        mailing_agree: data.subscribe,
+        mailing_agree: data.subscribe ? 1 : 0
+
       }).unwrap();
-      toast.success(result.message || 'Registration successful! Please check your email.');
+      toast.success(result || 'Registration successful! ');
+
     } catch (err: any) {
       const status = 'originalStatus' in err ? err.originalStatus : err.status;
       const errorMessage =

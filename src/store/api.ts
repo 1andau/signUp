@@ -1,37 +1,15 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { setToken, logout } from './authSlice';
+import {
+  RegisterRequest,
+  LoginRequest,
+  LoginResponse,
+  UserFull,
+  RefreshResponse,
+  CsrfResponse,
+} from '../components/types';
 
-// Типы для запросов
-export interface RegisterRequest {
-  name: string;
-  password: string;
-  email: string;
-  mailing_agree?: number;
-  blockchain_account_id?: number;
-}
-
-interface LoginRequest {
-  username: string;
-  password_hash: string;
-}
-
-interface UsersMe {
-  id: string;
-  username: string;
-  email: string;
-  full_name: string;
-}
-
-interface RefreshResponse {
-  access: string;
-}
-
-interface CsrfResponse {
-  csrfToken: string;
-}
-
-// Базовый запрос
 const baseQuery = fetchBaseQuery({
   baseUrl: '/api/v1',
   credentials: 'include',
@@ -48,7 +26,6 @@ const baseQuery = fetchBaseQuery({
   },
 });
 
-// Обёртка для автоматического обновления токена
 const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> =
   async (args, api, extraOptions) => {
     let result = await baseQuery(args, api, extraOptions);
@@ -56,7 +33,6 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
     if (result.error && result.error.status === 401) {
       try {
         const refreshResult = await baseQuery('/auth/refresh-token', api, extraOptions);
-
         if (refreshResult.data) {
           const newAccessToken = (refreshResult.data as RefreshResponse).access;
           localStorage.setItem('accessToken', newAccessToken);
@@ -83,7 +59,7 @@ export const api = createApi({
         body,
       }),
     }),
-    loginUser: builder.mutation<string, LoginRequest>({
+    loginUser: builder.mutation<LoginResponse, LoginRequest>({
       query: (body) => ({
         url: '/auth/login',
         method: 'POST',
@@ -99,7 +75,7 @@ export const api = createApi({
         method: 'POST',
       }),
     }),
-    getCurrentUser: builder.query<UsersMe, void>({
+    getCurrentUser: builder.query<UserFull, void>({
       query: () => '/users/me',
     }),
     logoutUser: builder.mutation<string, void>({
