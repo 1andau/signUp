@@ -2,52 +2,86 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useConfirmEmailMutation, useGetCsrfTokenQuery } from '../../store/api';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
+import { isFetchBaseQueryError } from '../../utils/errorHandler';
+import { CsrfResponse } from '../../components/types';
+
+
 
 const ConfirmEmail = () => {
   const { token } = useParams<{ token: string }>();
   const navigate = useNavigate();
 
-  const { data: csrfToken } = useGetCsrfTokenQuery({});
+  const { data: csrfData } = useGetCsrfTokenQuery();
+
+
   const [confirmEmail, { isLoading, isError, error, isSuccess }] = useConfirmEmailMutation();
 
   useEffect(() => {
-    if (csrfToken && token) {
-      localStorage.setItem('csrfToken', csrfToken as string);
+    if (csrfData && token) {
+      const csrfToken = (csrfData as CsrfResponse).csrfToken;
+      localStorage.setItem('csrfToken', csrfToken);
+
       confirmEmail(token)
         .unwrap()
-        .then((response) => {
-          toast.success(`Email confirmed successfully!`);
+        .then(() => {
+          toast.success('Email confirmed successfully!');
           setTimeout(() => navigate('/login'), 2000);
         })
-        .catch((err) => {
+        .catch((err: unknown) => {
           console.error('Confirmation error details:', err);
-          const message =
-            err.data?.message ||
-            (err.status === 400
-              ? 'Invalid or expired token'
-              : err.status === 404
-              ? 'User not found'
-              : err.status === 409
-              ? 'User already registered'
-              : err.status === 422
-              ? 'Validation error'
-              : err.status === 424
-              ? 'Blockchain account creation failed'
-              : 'Server error');
+
+          let message = 'Server error';
+
+          if (
+            isFetchBaseQueryError(err) &&
+            err.data &&
+            typeof err.data === 'object' &&
+            'message' in err.data
+          ) {
+            message = (err.data as { message: string }).message;
+          } else if (isFetchBaseQueryError(err)) {
+            switch (err.status) {
+              case 400:
+                message = 'Invalid or expired token';
+                break;
+              case 404:
+                message = 'User not found';
+                break;
+              case 409:
+                message = 'User already registered';
+                break;
+              case 422:
+                message = 'Validation error';
+                break;
+              case 424:
+                message = 'Blockchain account creation failed';
+                break;
+              default:
+                message = 'Server error';
+            }
+          }
+
           toast.error(`Confirmation failed: ${message}`);
         });
     }
-  }, [csrfToken, token, confirmEmail, navigate]);
+  }, [csrfData, token, confirmEmail, navigate]);
 
   if (isLoading) return <div>Confirming email...</div>;
-  if (isError)
-    return (
-      <div>
-        Error: {error && typeof error === 'object' && 'data' in error
-          ? (error as any).data?.message
-          : 'Server error'}
-      </div>
-    );
+
+  if (isError) {
+    let message = 'Server error';
+    if (
+      isFetchBaseQueryError(error) &&
+      error.data &&
+      typeof error.data === 'object' &&
+      'message' in error.data
+    ) {
+      message = (error.data as { message: string }).message;
+    }
+
+    return <div>Error: {message}</div>;
+  }
+
   if (isSuccess)
     return (
       <div>

@@ -20,3 +20,11 @@ export const getErrorMessage = (error: FetchBaseQueryError | SerializedError | u
   // Это SerializedError
   return error.message || 'Unknown error';
 };
+
+
+
+export const isFetchBaseQueryError = (
+  error: unknown
+): error is FetchBaseQueryError => {
+  return typeof error === 'object' && error !== null && 'status' in error;
+};

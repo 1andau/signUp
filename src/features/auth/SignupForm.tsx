@@ -7,6 +7,8 @@ import { getErrorMessage } from '../../utils/errorHandler';
 import Button from '../../components/button/Button';
 import styles from './signUp.module.css'
 import { useNavigate } from 'react-router-dom';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import { SerializedError } from '@reduxjs/toolkit';
 
 
 const signupSchema = z
@@ -48,29 +50,36 @@ const SignupForm = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<SignupFormData> = async (data) => {
-    try {
-      const result = await registerUser({
-        name: data.username,
-        email: data.email,
-        password: data.password,
-        mailing_agree: data.subscribe ? 1 : 0
+const onSubmit: SubmitHandler<SignupFormData> = async (data) => {
+  try {
+    const result = await registerUser({
+      name: data.username,
+      email: data.email,
+      password: data.password,
+      mailing_agree: data.subscribe ? 1 : 0,
+    }).unwrap();
 
-      }).unwrap();
-      toast.success(result || 'Registration successful! ');
+    toast.success(result || 'Registration successful!');
+  } catch (err) {
+    const typedError = err as FetchBaseQueryError | SerializedError;
 
-    } catch (err: any) {
-      const status = 'originalStatus' in err ? err.originalStatus : err.status;
-      const errorMessage =
-        status === 409
-          ? 'Email or username already exists.'
-          : status === 500
-          ? 'Internal server error. Please try again later.'
-          : getErrorMessage(err);
+    const status =
+      'originalStatus' in typedError
+        ? typedError.originalStatus
+        : 'status' in typedError
+        ? typedError.status
+        : undefined;
 
-      toast.error(`Registration failed: ${errorMessage}`);
-    }
-  };
+    const errorMessage =
+      status === 409
+        ? 'Email or username already exists.'
+        : status === 500
+        ? 'Internal server error. Please try again later.'
+        : getErrorMessage(typedError);
+
+    toast.error(`Registration failed: ${errorMessage}`);
+  }
+};
 
      const handleSignIn = () => {
     navigate('/login');
