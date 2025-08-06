@@ -12,7 +12,7 @@ const SignupForm = lazy(() => import("./features/auth/SignupForm"));
 const ConfirmEmail = lazy(() => import("./features/auth/ConfirmEmail"));
 const LoginForm = lazy(() => import("./features/auth/LoginForm"));
 const Profile = lazy(() => import("./components/profile/Profile"));
-const NotFound = lazy(() => import("./components/NotFound"));
+const NotFound = lazy(() => import("./components/notFound/NotFound"));
 
 
 const PrivateRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
