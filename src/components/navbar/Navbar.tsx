@@ -19,6 +19,9 @@ const Navbar = () => {
     }
   };
 
+  const goHome = () => {
+    navigate('/')
+  }
   const buttonText = location.pathname === '/' ? 'Sign in' : 'Sign up';
   const buttonIconSrc =
     location.pathname === '/'
@@ -27,7 +30,7 @@ const Navbar = () => {
 
   return (
     <div className={styles.wrapper}>
-      <header className={styles.header}>
+      <header className={styles.header} onClick={goHome}>
         <img src="/logo.svg" alt="Company Logo" className={styles.logo} />
 
         <button className={styles.menuToggle} onClick={toggleMenu}>

@@ -2,8 +2,38 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { setToken, logout } from './authSlice';
 
+// Типы для запросов
+export interface RegisterRequest {
+  name: string;
+  password: string;
+  email: string;
+  mailing_agree?: number;
+  blockchain_account_id?: number;
+}
+
+interface LoginRequest {
+  username: string;
+  password_hash: string;
+}
+
+interface UsersMe {
+  id: string;
+  username: string;
+  email: string;
+  full_name: string;
+}
+
+interface RefreshResponse {
+  access: string;
+}
+
+interface CsrfResponse {
+  csrfToken: string;
+}
+
+// Базовый запрос
 const baseQuery = fetchBaseQuery({
-  baseUrl: '/api',
+  baseUrl: '/api/v1',
   credentials: 'include',
   prepareHeaders: (headers) => {
     const csrfToken = localStorage.getItem('csrfToken');
@@ -18,19 +48,24 @@ const baseQuery = fetchBaseQuery({
   },
 });
 
+// Обёртка для автоматического обновления токена
 const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> =
   async (args, api, extraOptions) => {
     let result = await baseQuery(args, api, extraOptions);
 
     if (result.error && result.error.status === 401) {
-      const refreshResult = await baseQuery('/v1/auth/refresh-token', api, extraOptions);
+      try {
+        const refreshResult = await baseQuery('/auth/refresh-token', api, extraOptions);
 
-      if (refreshResult.data) {
-        const newAccessToken = (refreshResult.data as any).access;
-        localStorage.setItem('accessToken', newAccessToken);
-        api.dispatch(setToken(newAccessToken));
-        result = await baseQuery(args, api, extraOptions);
-      } else {
+        if (refreshResult.data) {
+          const newAccessToken = (refreshResult.data as RefreshResponse).access;
+          localStorage.setItem('accessToken', newAccessToken);
+          api.dispatch(setToken(newAccessToken));
+          result = await baseQuery(args, api, extraOptions);
+        } else {
+          api.dispatch(logout());
+        }
+      } catch {
         api.dispatch(logout());
       }
     }
@@ -41,48 +76,40 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
 export const api = createApi({
   baseQuery: baseQueryWithReauth,
   endpoints: (builder) => ({
-    registerUser: builder.mutation({
+    registerUser: builder.mutation<string, RegisterRequest>({
       query: (body) => ({
-        url: 'v1/auth/register',
+        url: '/auth/register',
         method: 'POST',
         body,
-        headers: { 'Content-Type': 'application/json' },
       }),
     }),
-    loginUser: builder.mutation({
+    loginUser: builder.mutation<string, LoginRequest>({
       query: (body) => ({
-        url: 'v1/auth/login',
+        url: '/auth/login',
         method: 'POST',
         body,
-        headers: { 'Content-Type': 'application/json' },
       }),
     }),
-    getCsrfToken: builder.query({
-      query: () => 'v1/auth/csrf-token',
+    getCsrfToken: builder.query<CsrfResponse, void>({
+      query: () => '/auth/csrf-token',
     }),
-    confirmEmail: builder.mutation({
-      query: (token: string) => ({
-        url: `v1/auth/confirm-email/${token}`,
+    confirmEmail: builder.mutation<string, string>({
+      query: (token) => ({
+        url: `/auth/confirm-email/${token}`,
         method: 'POST',
       }),
     }),
-    getCurrentUser: builder.query<any, void>({
-      query: () => ({
-        url: 'v1/users/me',
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-        },
-      }),
+    getCurrentUser: builder.query<UsersMe, void>({
+      query: () => '/users/me',
     }),
     logoutUser: builder.mutation<string, void>({
       query: () => ({
-        url: 'v1/auth/logout',
+        url: '/auth/logout',
         method: 'GET',
       }),
     }),
-    refreshAccessToken: builder.query({
-      query: () => 'v1/auth/refresh-token',
+    refreshAccessToken: builder.query<RefreshResponse, void>({
+      query: () => '/auth/refresh-token',
     }),
   }),
 });
