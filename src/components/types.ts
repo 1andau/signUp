@@ -36,7 +36,7 @@ export interface RefreshResponse {
 }
 
 export interface CsrfResponse {
-  csrfToken: string;
+  token: string;
 }
 
 

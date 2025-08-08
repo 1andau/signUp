@@ -1,7 +1,7 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useLoginUserMutation } from '../../store/api';
+import { useLazyGetCsrfTokenQuery, useLoginUserMutation } from '../../store/api';
 import { toast } from 'react-toastify';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { getErrorMessage } from '../../utils/errorHandler';
@@ -40,10 +40,16 @@ const LoginForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+const [getCsrfToken] = useLazyGetCsrfTokenQuery();
+
+
 const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
   const hashedPassword = SHA256(data.password_hash).toString();
 
   try {
+    const csrfData = await getCsrfToken().unwrap();
+    localStorage.setItem('csrfToken', csrfData.token);
+
     const result = await loginUser({
       username: data.username,
       password_hash: hashedPassword,
@@ -53,6 +59,7 @@ const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
     dispatch(setToken(result.access));
     toast.success('Login successful!');
     navigate('/profile');
+
   } catch (err) {
     const typedError = err as FetchBaseQueryError | SerializedError;
     const status =

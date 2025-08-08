@@ -15,6 +15,7 @@ const Profile = () => {
       await logoutUser().unwrap();
       dispatch(logout());
       localStorage.removeItem('accessToken');
+      localStorage.removeItem('csrfToken')
       navigate('/');
     } catch (error) {
       console.error('Logout error:', error);

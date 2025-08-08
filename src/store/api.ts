@@ -16,18 +16,38 @@ const baseQuery = fetchBaseQuery({
   prepareHeaders: (headers) => {
     const csrfToken = localStorage.getItem('csrfToken');
     const accessToken = localStorage.getItem('accessToken');
+
     if (csrfToken) {
       headers.set('X-CSRF-Token', csrfToken);
     }
     if (accessToken) {
       headers.set('Authorization', `Bearer ${accessToken}`);
     }
+
     return headers;
   },
 });
 
-const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> =
+const baseQueryWithReauthAndCsrf: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> =
   async (args, api, extraOptions) => {
+    const method =
+      typeof args === 'string'
+        ? 'GET'
+        : args.method
+        ? args.method.toUpperCase()
+        : 'GET';
+
+    if (['POST', 'PUT', 'DELETE'].includes(method)) {
+      const csrfToken = localStorage.getItem('csrfToken');
+      if (!csrfToken) {
+        const csrfResult = await baseQuery('/auth/csrf-token', api, extraOptions);
+
+    if (csrfResult.data && typeof csrfResult.data === 'object' && 'token' in csrfResult.data) {
+  localStorage.setItem('csrfToken', (csrfResult.data as { token: string }).token);
+}
+      }
+    }
+
     let result = await baseQuery(args, api, extraOptions);
 
     if (result.error && result.error.status === 401) {
@@ -50,7 +70,7 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
   };
 
 export const api = createApi({
-  baseQuery: baseQueryWithReauth,
+  baseQuery: baseQueryWithReauthAndCsrf,
   endpoints: (builder) => ({
     registerUser: builder.mutation<string, RegisterRequest>({
       query: (body) => ({
@@ -94,6 +114,7 @@ export const {
   useRegisterUserMutation,
   useLoginUserMutation,
   useGetCsrfTokenQuery,
+  useLazyGetCsrfTokenQuery,
   useConfirmEmailMutation,
   useRefreshAccessTokenQuery,
   useGetCurrentUserQuery,
