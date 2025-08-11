@@ -1,27 +1,8 @@
 import { useGetCurrentUserQuery, useLogoutUserMutation } from '../../store/api';
-import { useDispatch } from 'react-redux';
-import { logout } from '../../store/authSlice';
-import { useNavigate } from 'react-router-dom';
 import styles from './profile.module.css';
 
 const Profile = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [logoutUser, { isLoading }] = useLogoutUserMutation();
   const { data: user, isLoading: isUserLoading, error: userError } = useGetCurrentUserQuery(undefined);
-
-  const handleLogout = async () => {
-    try {
-      await logoutUser().unwrap();
-      dispatch(logout());
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('csrfToken')
-      navigate('/');
-    } catch (error) {
-      console.error('Logout error:', error);
-      alert('Logout failed. Please try again.');
-    }
-  };
 
   return (
     <div className={styles.profilePage}>
@@ -37,13 +18,7 @@ const Profile = () => {
               <p className={styles.infoItem}>Email: {user.email}</p>
               <p className={styles.infoItem}>User ID: {user.id}</p>
             </div>
-            <button
-              className={styles.logoutButton}
-              onClick={handleLogout}
-              disabled={isLoading}
-            >
-              {isLoading ? 'Logging out...' : 'Logout'}
-            </button>
+  
           </section>
         </main>
       ) : null}

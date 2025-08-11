@@ -1,5 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface User {
   id: string;
@@ -13,10 +12,9 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
-  token: null,
+  token: localStorage.getItem('token'), // достаём токен при инициализации
   user: null,
 };
-
 
 const authSlice = createSlice({
   name: 'auth',
@@ -24,6 +22,7 @@ const authSlice = createSlice({
   reducers: {
     setToken: (state, action: PayloadAction<string>) => {
       state.token = action.payload;
+      localStorage.setItem('token', action.payload); // сохраняем токен
     },
     setUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload;
@@ -31,6 +30,7 @@ const authSlice = createSlice({
     logout: (state) => {
       state.token = null;
       state.user = null;
+      localStorage.removeItem('token'); // удаляем токен
     },
   },
 });

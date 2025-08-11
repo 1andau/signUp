@@ -1,81 +1,155 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './navbar.module.css';
+import { useGetCurrentUserQuery, useLogoutUserMutation } from '../../store/api';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../store/authSlice';
 
 const Navbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // бургер
+  const [generatorOpen, setGeneratorOpen] = useState(false); // выпадашка генератора
+  const [userMenuOpen, setUserMenuOpen] = useState(false); // выпадашка пользователя
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const isProfilePage = location.pathname.startsWith('/profile');
+
+const navbarRef = useRef<HTMLDivElement | null>(null);
+
+  const [logoutUser, { isLoading }] = useLogoutUserMutation();
+  const { data: user, isLoading: isUserLoading, error: userError } = useGetCurrentUserQuery(undefined);
+
+
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const handleAuthClick = () => {
-    if (location.pathname === '/') {
-      navigate('/login');
-    } else {
-      navigate('/');
+  const toggleGenerator = () => {
+    setGeneratorOpen(!generatorOpen);
+    setUserMenuOpen(false);
+  };
+
+  const toggleUserMenu = () => {
+    setUserMenuOpen(!userMenuOpen);
+    setGeneratorOpen(false);
+  };
+
+  const goHome = () => navigate('/');
+
+
+useEffect(() => {
+  const handleClickOutside = (e: MouseEvent) => {
+    if (navbarRef.current && !navbarRef.current.contains(e.target as Node)) {
+      setGeneratorOpen(false);
+      setUserMenuOpen(false);
+      setIsMenuOpen(false);
     }
   };
 
-  const goHome = () => {
-    navigate('/')
-  }
-  const buttonText = location.pathname === '/' ? 'Sign in' : 'Sign up';
-  const buttonIconSrc =
-    location.pathname === '/'
-      ? 'https://api.builder.io/api/v1/image/assets/TEMP/0f6e22742a993fc0cfcd9191c845bd890a2fec9b?placeholderIfAbsent=true&apiKey=74db10a95f1e4e92821d917887146420'
-      : 'https://api.builder.io/api/v1/image/assets/TEMP/0f6e22742a993fc0cfcd9191c845bd890a2fec9b?placeholderIfAbsent=true&apiKey=74db10a95f1e4e92821d917887146420'; 
+  document.addEventListener('mousedown', handleClickOutside);
+  return () => document.removeEventListener('mousedown', handleClickOutside);
+}, []);
+
+
+  const handleLogout = async () => {
+    try {
+      await logoutUser().unwrap();
+      dispatch(logout());
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('csrfToken')
+      navigate('/');
+    } catch (error) {
+      console.error('Logout error:', error);
+      alert('Logout failed. Please try again.');
+    }
+  };
 
   return (
-    <div className={styles.wrapper}>
-      <header className={styles.header} onClick={goHome}>
-        <img src="/logo.svg" alt="Company Logo" className={styles.logo} />
+    <div className={styles.wrapper} ref={navbarRef}>
+      <header className={styles.header}>
+        <img src="/logo.svg" alt="Company Logo" className={styles.logo} onClick={goHome} />
 
         <button className={styles.menuToggle} onClick={toggleMenu}>
-          <span className={`${styles.menuIcon} ${isMenuOpen ? styles.active : ''}`}></span>
+          <span className={`${styles.menuIcon} ${isMenuOpen ? styles.active : ''}`} />
         </button>
 
         <nav className={`${styles.navigation} ${isMenuOpen ? styles.active : ''}`}>
-          <div className={styles.navItem}>
-            <img src="main.svg" alt="main icon" width={25} height={20} />
-            <span>Main</span>
-          </div>
+          {isProfilePage ? (
+            <>
+            
+              {/* Generator */}
+              <div className={styles.navItemWrapper}>
+                <div
+                  className={`${styles.navItemProfile} ${generatorOpen ? styles.active : ''}`}
+  onClick={toggleGenerator}
+                 >
+                  <img src="generator.svg" alt="generator icon" width={28} />
+                  <span>Generator</span>
+                </div>
 
-          <div className={styles.divider}></div>
+                <div
+                  className={`${styles.dropdown} ${generatorOpen ? styles.open : ''}`}
+                >
+                  <div className={styles.dropdownItem} onClick={() => navigate('/profile/create')}>Create</div>
+                  <div className={styles.dropdownItem} onClick={() => navigate('/profile/history')}>History</div>
+                </div>
+              </div>
 
-          <div className={styles.navItem}>
-            <img src="/pricing.svg" alt="main icon" width={25} height={20} />
-            <span>Pricing</span>
-          </div>
+ <div className={styles.divider}></div>
+              {/* Username */}
+              <div className={styles.navItemWrapper}>
+                <div 
+             className={`${styles.navItemProfile} ${userMenuOpen ? styles.active : ''}`}
 
-          <div className={styles.divider}></div>
-
-          <div className={styles.navItem}>
-            <img src="help.svg" alt="help icon" width={16} height={22} />
-            <span>Help</span>
-          </div>
-
-          <div className={styles.divider}></div>
-
-          <div className={styles.navItem}>
-            <img src="about.svg" alt="about icon" width={21} height={16} />
-            <span>About</span>
-          </div>
+                onClick={toggleUserMenu}>
+                  <img src="username.svg" alt="user icon" width={28}/>
+                  <span>{user?.name}</span>
+                </div>
+                <div
+                  className={`${styles.dropdown} ${userMenuOpen ? styles.open : ''}`}
+                >
+                  <div className={styles.dropdownItem} onClick={() => navigate('/profile/settings')}>Settings</div>
+                  <div className={styles.dropdownItem} onClick={() => navigate('/profile/billing')}>Billing</div>
+                  <div className={styles.dropdownItem}>
+                      <button
+                                className={styles.logoutBtn}
+                                onClick={handleLogout}
+                                disabled={isLoading}
+                              >
+                                {isLoading ? 'Logging out...' : 'Logout'}
+                              </button>
+                  </div>
+                            
+                </div>
+              </div>
+            </>
+          ) : (
+<>
+  <div className={styles.navItem}>
+    <img src="main.svg" alt="main icon" width={25} height={20} />
+    <span>Main</span>
+  </div>
+  <div className={styles.divider}></div>
+  <div className={styles.navItem}>
+    <img src="/pricing.svg" alt="pricing icon" width={25} height={20} />
+    <span>Pricing</span>
+  </div>
+  <div className={styles.divider}></div>
+  <div className={styles.navItem}>
+    <img src="help.svg" alt="help icon" width={16} height={22} />
+    <span>Help</span>
+  </div>
+  <div className={styles.divider}></div>
+  <div className={styles.navItem}>
+    <img src="about.svg" alt="about icon" width={21} height={16} />
+    <span>About</span>
+  </div>
+</>
+          )}
         </nav>
       </header>
-
-      <div className={styles.signUpTab}>
-        <button className={styles.signInButton} onClick={handleAuthClick}>
-          <span>{buttonText}</span>
-          <img
-            src={buttonIconSrc}
-            alt={`${buttonText} icon`}
-            className={styles.signInIcon}
-          />
-        </button>
-      </div>
     </div>
   );
 };
