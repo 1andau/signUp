@@ -3,12 +3,15 @@ import type { ButtonHTMLAttributes } from 'react';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   text: string;
+  size?: 'default' | 'small'; // Добавляем пропс для размера
 }
 
-const Button = ({ text, className, ...rest }: ButtonProps) => {
+const Button = ({ text, className, size = 'default', ...rest }: ButtonProps) => {
   return (
     <button
-      className={`${styles.signUpButton} ${className ?? ''}`}
+      className={`${styles.signUpButton} ${className ?? ''} ${
+        size === 'small' ? styles.smallButton : ''
+      }`}
       aria-label={text}
       {...rest}
     >

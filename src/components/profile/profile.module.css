@@ -1,112 +1,139 @@
-.profilePage {
-  background-color: var(--color-black-black-two);
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-}
 
-.mainContent {
+
+.settings {
   width: 100%;
-  max-width: 1080px;
-  margin: 0 auto;
-}
-
-.profileSection {
-  background-color: var(--form-color);
-  border-radius: 10px;
+  min-height: 758px;
+  position: relative;
+  overflow-x: hidden;
+  background-color: #1f1f1f;
   padding: 40px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-  text-align: center;
-  color: #e0e0e0;
-  font-family: 'Circe', -apple-system, Roboto, Helvetica, sans-serif;
-  font-weight: 400;
+  font-family: Circe, -apple-system, Roboto, Helvetica, sans-serif;
+
+
+    background-image: url('/settings-pixels.svg');
+  background-repeat: no-repeat;
+  background-position: right bottom; 
+  background-size: 800px; 
+
 }
 
-.pageTitle {
-  font-size: 46px;
-  font-weight: 300;
-  margin-bottom: 20px;
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+
+.usernameDiv {
+  display: flex;
+  align-items: center;
+}
+
+.username {
+  color: #fff;
+  margin-left: 10px;
+  font: 400 34px/38px Circe, -apple-system, Roboto, Helvetica, sans-serif;
+}
+
+.settingsHeader {
   color: #e0e0e0;
   text-transform: uppercase;
+  font: 400 26px/34px Circe, -apple-system, Roboto, Helvetica, sans-serif;
 }
 
-.infoContainer {
-  background-color: var(--navbar-color);
-  padding: 20px;
-  border-radius: 8px;
-  margin-bottom: 30px;
+.formContainer {
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.infoItem {
-  font-size: 18px;
+.emailSection {
+  margin-bottom: 40px;
+}
+
+.inputField {
+  border: 1px solid #a8a8a9;
+  border-radius: 10px;
+  padding: 16px;
+  height: 55px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.inputField input {
+  background: transparent;
+  border: none;
+  outline: none;
   color: #fff;
-  margin: 10px 0;
-  border-bottom: 1px solid var(--thin-lines);
-  padding-bottom: 10px;
+  width: 100%;
+  font-size: 18px;
+  font-family: Circe, -apple-system, Roboto, Helvetica, sans-serif;
 }
 
-.infoItem:last-child {
-  border-bottom: none;
+.inputField input:-webkit-autofill,
+.inputField input:-webkit-autofill:hover,
+.inputField input:-webkit-autofill:focus,
+.inputField input:-webkit-autofill:active {
+  -webkit-text-fill-color: #fff;
+  -webkit-box-shadow: 0 0 0 30px #1f1f1f inset;
+  box-shadow: 0 0 0 30px #1f1f1f inset;
+  font-family: Circe, -apple-system, Roboto, Helvetica, sans-serif;
 }
 
-.logoutButton {
-  background-color: var(--form-color);
-  color: var(--links-color);
-  border: 1px solid var(--neutral-light);
-  border-radius: 5px;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
+.pencilIcon {
+  position: absolute;
+  right: 16px;
+  width: 20px;
+  height: 20px;
 }
 
-.logoutButton:hover {
-  background-color: var(--accent-color);
-  color: var(--color-black-black-two);
+.emailInfo {
+  color: #979799;
+  font: 400 14px/20px Circe, -apple-system, Roboto, Helvetica, sans-serif;
+  margin-top: 10px;
 }
 
-.logoutButton:disabled {
-  background-color: var(--navbar-color);
-  color: var(--text-placeholder);
-  cursor: not-allowed;
+.passwordRequirements {
+  color: #979799;
+  font: 400 14px/20px Circe, -apple-system, Roboto, Helvetica, sans-serif;
 }
 
-@media (max-width: 768px) {
-  .profileSection {
-    padding: 20px;
+.passwordRequirements ul {
+  list-style: disc;
+  padding-left: 20px;
+  margin-top: 8px;
+}
+
+.passwordRequirements li {
+  margin-bottom: 4px;
+}
+
+@media (max-width: 991px) {
+  .formContainer {
+    max-width: 100%;
   }
 
-  .pageTitle {
-    font-size: 36px;
-  }
-
-  .infoItem {
-    font-size: 16px;
-  }
-
-  .logoutButton {
-    padding: 8px 16px;
-    font-size: 14px;
+  .inputField {
+    width: 100%;
   }
 }
+
+
 
 @media (max-width: 480px) {
-  .profileSection {
-    padding: 15px;
-  }
+ .header {
+  margin-bottom: 30px;
+} 
+.username {
+font-size: 16px;
+}
+.settingsHeader {
+font-size: 16px;
 
-  .pageTitle {
-    font-size: 28px;
-  }
-
-  .infoItem {
-    font-size: 14px;
-  }
-
-  .logoutButton {
-    padding: 6px 12px;
-    font-size: 12px;
-  }
+}
 }

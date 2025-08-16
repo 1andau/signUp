@@ -14,8 +14,18 @@
   width: 100%;
   height: 70px;
   background-color: var(--navbar-color);
-  position: relative;
-  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.leftSide {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-left: 180px;
 }
 
 .logo {
@@ -25,21 +35,53 @@
   width: 160px;
   height: 38px;
   cursor: pointer;
+  z-index: 10;
 }
 
 .navigation {
-  position: absolute;
-  left: 273px;
-  top: 19px;
-  width: 482px;
-  height: 34px;
   display: flex;
   align-items: center;
   gap: 20px;
 }
 
+
+.rightSide {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  min-width: 225px;
+  margin-right: 40px;
+  z-index: 5;
+}
+
+.money {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.money p {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+}
+
+.money img {
+  width: 30px;
+  height: 30px;
+}
+
+
+.rightSide button {
+  height: auto;
+  padding: 10px 20px;
+  font-size: 16px;
+}
+
 .navItemWrapper {
   position: relative;
+  display: inline-block;
 }
 
 .navItem {
@@ -56,18 +98,8 @@
   cursor: pointer;
 }
 
-.navItemProfile span {
-  max-width: 150px; /* или сколько нужно */
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: inline-block;
-  vertical-align: middle;
-}
-
-
-.navItemProfile{
-    display: flex;
+.navItemProfile {
+  display: flex;
   align-items: center;
   gap: 2px;
   color: #fff;
@@ -80,23 +112,31 @@
   cursor: pointer;
 }
 
+.navItemProfile span {
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  vertical-align: middle;
+}
 
 .navItem:hover,
-.navItemProfile:hover, 
+.navItemProfile:hover,
 .navItem.active,
-.navItemProfile.active  {
+.navItemProfile.active {
   border-radius: 5px;
   background: #484848;
   box-shadow: 1px 1px 1px 0 #272727 inset;
 }
 
-
-.logoutBtn{
+.logoutBtn {
   background: none;
   border: none;
   color: #fff;
-   font-size: 16px;
+  font-size: 16px;
 }
+
 .generatorDropdown {
   left: 0;
 }
@@ -123,7 +163,6 @@
   padding: 5px 10px;
   transition: background 0.2s ease, box-shadow 0.3s ease;
 }
-
 
 .signUpTab {
   position: absolute;
@@ -159,7 +198,7 @@
   cursor: pointer;
   padding: 10px;
   position: absolute;
-  right: 10px;
+  right: 15px;
   top: 10px;
   z-index: 20;
 }
@@ -203,19 +242,11 @@
   transform: translateY(-8px) rotate(-45deg);
 }
 
-
-
-/* //это для обвновленного navbar на странице юзера */
-.navItemWrapper {
-  position: relative;
-  display: inline-block;
-}
-
 .dropdown {
   position: absolute;
   top: 100%;
   left: 0;
-background-color: var(--dropdown-menu);
+  background-color: var(--dropdown-menu);
   overflow: hidden;
   max-height: 0;
   opacity: 0;
@@ -223,8 +254,8 @@ background-color: var(--dropdown-menu);
   display: flex;
   flex-direction: column;
   border-radius: 0 0 5px 5px;
- width: 100%;
- box-sizing: border-box;
+  width: 100%;
+  box-sizing: border-box;
   z-index: 5;
 }
 
@@ -245,9 +276,6 @@ background-color: var(--dropdown-menu);
   box-shadow: 1px 1px 1px 0 #272727 inset;
 }
 
-
-
-
 @media (max-width: 1024px) {
   .header {
     height: 60px;
@@ -261,8 +289,6 @@ background-color: var(--dropdown-menu);
   }
 
   .navigation {
-    left: 200px;
-    width: auto;
     gap: 15px;
   }
 
@@ -281,19 +307,34 @@ background-color: var(--dropdown-menu);
   .wrapper {
     min-height: 90px;
   }
+
+  .rightSide {
+    margin-right: 50px;
+  }
 }
 
 @media (max-width: 768px) {
   .header {
     height: auto;
-    padding: 10px 0;
+    padding: 10px 15px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .leftSide {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 15px;
+    margin-left: 0;
   }
 
   .logo {
-    position: static;
-    margin: 0 auto 10px;
+    position: relative;
+    left: 0;
+    top: 0;
     width: 120px;
     height: 30px;
+    margin: 0;
   }
 
   .navigation {
@@ -318,9 +359,9 @@ background-color: var(--dropdown-menu);
     width: 100%;
   }
 
-
   .menuToggle {
     display: block;
+    right: 15px;
   }
 
   .navItem {
@@ -340,32 +381,30 @@ background-color: var(--dropdown-menu);
     justify-content: flex-start;
   }
 
-    .dropdown {
-    position: static; /* снимаем absolute */
-    max-height: none; /* показываем всё содержимое */
+  .dropdown {
+    position: static;
+    max-height: none;
     opacity: 1;
-    background-color: transparent; /* или под цвет навбара */
+    background-color: transparent;
     border-radius: 0;
     width: 100%;
-    padding-left: 20px; /* немного отступ, чтобы было видно вложенность */
+    padding-left: 20px;
     display: block;
     transition: none;
   }
 
-  /* Скрываем пункты, если меню закрыто (через class) */
   .dropdown:not(.open) {
     display: none;
   }
 
   .dropdownItem {
     padding: 10px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .dropdownItem:last-child {
     border-bottom: none;
   }
-
 
   .signUpTab {
     position: static;
@@ -383,10 +422,25 @@ background-color: var(--dropdown-menu);
     width: auto;
   }
 
+  .rightSide {
+    justify-content: center;
+    width: 100%;
+    margin: 10px 0 0; 
+    position: relative;
+    z-index: 5;
+  }
+
   .wrapper {
     min-height: 0;
   }
 }
+
+
+
+
+
+
+
 
 @media (max-width: 480px) {
   .logo {
@@ -408,24 +462,21 @@ background-color: var(--dropdown-menu);
     width: 16px;
     height: 16px;
   }
+
+  .rightSide {
+    margin: 10px 0 0;
+  }
+
+  .menuToggle {
+    right: 10px;
+  }
 }
-
-
-
-
-
-
-
-
-
-
 
 .divider {
   flex-shrink: 0;
   background-color: var(--thin-lines);
 }
 
-/* Десктоп: вертикальная линия */
 @media (min-width: 769px) {
   .divider {
     width: 1px;
@@ -434,7 +485,6 @@ background-color: var(--dropdown-menu);
   }
 }
 
-/* Мобильный: горизонтальная линия */
 @media (max-width: 768px) {
   .divider {
     width: 90%;

@@ -1,5 +1,26 @@
 
+.smallButton {
+  max-width: 127px !important;
+  height: 36px !important;
+}
 
+.smallButton .buttonBackground {
+  width: 127px !important;
+  height: 36px !important;
+    border: 1px solid #313131;
+
+}
+
+.smallButton .buttonOverlay {
+  width: 127px !important;
+  height: 36px !important;
+
+}
+
+.smallButton .buttonText {
+  font-weight: 200 !important; /* Легкий вес шрифта */
+  font-size: 16px !important; /* Можно также уменьшить размер, если нужно */
+}
 
 .signUpButton {
   align-self: stretch;
@@ -12,7 +33,7 @@
   cursor: pointer;
   padding: 0;
   overflow: hidden;
-  
+border-radius: 10px;
 }
 
 @media (width <= 991px) {

@@ -4,6 +4,7 @@ import styles from './navbar.module.css';
 import { useGetCurrentUserQuery, useLogoutUserMutation } from '../../store/api';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../store/authSlice';
+import Button from '../button/Button';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false); // бургер
@@ -69,6 +70,7 @@ useEffect(() => {
   return (
     <div className={styles.wrapper} ref={navbarRef}>
       <header className={styles.header}>
+              <div className={styles.leftSide}>
         <img src="/logo.svg" alt="Company Logo" className={styles.logo} onClick={goHome} />
 
         <button className={styles.menuToggle} onClick={toggleMenu}>
@@ -77,8 +79,9 @@ useEffect(() => {
 
         <nav className={`${styles.navigation} ${isMenuOpen ? styles.active : ''}`}>
           {isProfilePage ? (
-            <>
+
             
+            <>
               {/* Generator */}
               <div className={styles.navItemWrapper}>
                 <div
@@ -123,6 +126,11 @@ useEffect(() => {
                   </div>
                             
                 </div>
+
+
+          
+
+
               </div>
             </>
           ) : (
@@ -146,9 +154,34 @@ useEffect(() => {
     <img src="about.svg" alt="about icon" width={21} height={16} />
     <span>About</span>
   </div>
+
+
+
+      
+
+
 </>
           )}
         </nav>
+
+</div>
+      <div className={styles.rightSide}>
+
+<div className={styles.money}> 
+    <img src="/coin.svg" alt="" />
+  <p>10.000</p>
+</div>
+
+
+<Button
+  text="Top up"
+  size="small"
+/> 
+</div>
+
+
+
+
       </header>
     </div>
   );
